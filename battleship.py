@@ -4,6 +4,7 @@ Name:
 Roll No:
 """
 
+from typing import Counter
 import battleship_tests as test
 
 project = "Battleship" # don't edit this
@@ -110,15 +111,15 @@ Parameters: 2D list of ints ; int
 Returns: 2D list of ints
 '''
 def addShips(grid, numships):
-    a=0
-    while a<numships*3:
-        b=createShip()
-        c=checkShip(grid, b)
-        if c == True:
-            for j in b:
+    count=0
+    while count<numships*3:
+        create=createShip()
+        check=checkShip(grid, create)
+        if check == True:
+            for j in create:
                 grid[j[0]][j[1]] = 2
-                a=a+1
-    return grid;
+                count=count+1
+    return grid
 
 
 '''
