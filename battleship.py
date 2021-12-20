@@ -4,6 +4,7 @@ Name:
 Roll No:
 """
 
+from typing import Counter
 import battleship_tests as test
 
 project = "Battleship" # don't edit this
@@ -25,7 +26,16 @@ Parameters: dict mapping strs to values
 Returns: None
 '''
 def makeModel(data):
-    return
+    data["rows"]=10
+    data["cols"]=10
+    data["boardsize"]=500
+    data["cellsize"]=(int(data["boardsize"]/(data["rows"])))
+    data["userboard"]=test.testGrid()
+    data["numberofships"]=5
+    data["computerboard"]=addShips(emptyGrid(data["rows"], data["cols"]), data["numberofships"])
+    return data
+
+
 
 
 '''
@@ -62,7 +72,14 @@ Parameters: int ; int
 Returns: 2D list of ints
 '''
 def emptyGrid(rows, cols):
-    return
+    a=[]
+    for i in range(rows):
+        b=[]
+        for j in range(cols):
+            b.append(EMPTY_UNCLICKED)
+        a.append(b)
+    return a
+
 
 
 '''
@@ -71,7 +88,17 @@ Parameters: no parameters
 Returns: 2D list of ints
 '''
 def createShip():
-    return
+    r=random.randint(1,8)
+    c=random.randint(1,8)
+    b=random.randint(0,1)
+    if b == 0:
+        ship=[[r-1,c],[r,c],[r+1,c]]
+    else:
+        ship=[[r,c-1],[r,c],[r,c+1]]
+    return ship
+print(createShip());
+
+
 
 
 '''
@@ -80,7 +107,11 @@ Parameters: 2D list of ints ; 2D list of ints
 Returns: bool
 '''
 def checkShip(grid, ship):
-    return
+    for i in range(len(ship)):
+        if grid[ship[i][0]][ship[i][1]]!=EMPTY_UNCLICKED:
+            return False
+    return True
+
 
 
 '''
@@ -88,8 +119,16 @@ addShips(grid, numShips)
 Parameters: 2D list of ints ; int
 Returns: 2D list of ints
 '''
-def addShips(grid, numShips):
-    return
+def addShips(grid, numships):
+    count=0
+    while count<numships*3:
+        create=createShip()
+        check=checkShip(grid, create)
+        if check == True:
+            for j in create:
+                grid[j[0]][j[1]] = 2
+                count=count+1
+    return grid
 
 
 '''
@@ -271,3 +310,7 @@ if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
     # runSimulation(500, 500)
+    test.testMakeModel()
+    
+
+
