@@ -44,6 +44,8 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
+    drawGrid(data,userCanvas,data["userboard"],True )
+    drawGrid(data,compCanvas,data["computerboard"],False)
     return
 
 
@@ -319,7 +321,7 @@ if __name__ == "__main__":
     ## Finally, run the simulation to test it manually ##
     
     runSimulation(500, 500)
-    test.testDrawGrid()
+    test.testGrid
     
 
 
