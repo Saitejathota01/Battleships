@@ -44,8 +44,9 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; Tkinter canvas
 Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
-    drawGrid(data,userCanvas,data["userboard"],True )
-    drawGrid(data,compCanvas,data["computerboard"],False)
+    showShips=True
+    drawGrid(data,userCanvas,data["userboard"], showShips)
+    drawGrid(data,compCanvas,data["computerboard"], showShips)
     return
 
 
@@ -158,7 +159,12 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    return
+    row=0
+    if ship[row][1]==ship[row+1][1]==ship[row+2][1]:
+        ship.sort()
+        if ship[row+1][0]-ship[row][0]==1 and ship[row+2][0]-ship[row+1][0]==1:
+           return True
+    return False   
 
 
 '''
@@ -320,8 +326,8 @@ if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
     
-    runSimulation(500, 500)
-    test.testGrid
+    #runSimulation(500, 500)
+    test.testIsVertical()
     
 
 
