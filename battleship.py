@@ -230,7 +230,7 @@ def placeShip(data):
     if shipIsValid(k,data["temporaryShips"]):    
         for i in data["temporaryShips"]:
             k[i[0]][i[1]]=SHIP_UNCLICKED
-            data["userships"]=data["userships"]+1
+            data["userships"]=data["userShips"]+1
     else:        
         print("Ship is not valid")
     data["temporaryShips"]=[]
@@ -243,6 +243,14 @@ Parameters: dict mapping strs to values ; int ; int
 Returns: None
 '''
 def clickUserBoard(data, row, col):
+    k=data["userboard"]
+    if[row,col]in g or data["userships"]==5:
+        return
+        data["temporaryShips"].append([row,col])
+        if len(data["temporaryShips"])==3:
+            placeShip(data)
+            if data["userShips"]==5:
+                print("You can start the game")
     return
 
 
