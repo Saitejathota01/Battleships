@@ -324,6 +324,15 @@ Parameters: dict mapping strs to values ; Tkinter canvas
 Returns: None
 '''
 def drawGameOver(data, canvas):
+    if (data["winner"]=="user"):
+        canvas.create_text(250, 150, text="congratulations", fill="gold", font=("Arial","24","bold italic"))
+        canvas.create_text(250, 250, text="PRESS ENTER IF YOU WANT TO PLAY", fill="black", font=("Arial","16","bold italic"))
+    if (data["winner"]=="comp"):
+        canvas.create_text(250, 150, text="YOU LOSE", fill="brown", font=("Arial","24","bold italic")) 
+        canvas.create_text(250, 250, text="PRESS ENTER IF YOU WANT TO PLAY", fill="black", font=("Arial","16","bold italic"))
+    if (data["winner"]=="draw"):
+        canvas.create_text(250, 150, text="OUT OF MOVES", fill="silver", font=("Arial","24","bold italic"))
+        canvas.create_text(250, 250, text="PRESS ENTER IF YOU WANT TO PLAY", fill="black", font=("Arial","16","bold italic"))       
     return
 
 
