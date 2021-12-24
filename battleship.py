@@ -47,7 +47,7 @@ Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
     drawGrid(data,userCanvas,data["userboard"], True)
-    drawGrid(data,compCanvas,data["computerboard"], True)
+    drawGrid(data,compCanvas,data["computerboard"], False)
     drawShip(data,userCanvas,data["temporaryShips"])
     return
 
@@ -149,15 +149,21 @@ def drawGrid(data, canvas, grid, showShips):
     for row in range(data["rows"]):
         for cols in range(data["cols"]):
             if grid[row][cols]== SHIP_UNCLICKED:
-                canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="yellow")
-
+                if (showShips):
+                    canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="yellow")
+                else:
+                   canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="blue")
+            elif (grid[row][cols]==SHIP_CLICKED):
+                  canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="red")
+            #elif
+                #canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="blue")
+            elif (grid[row][cols]==EMPTY_CLICKED):
+                 canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="white")
             else:
-                canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="blue")
-        else:
-            canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="blue")
+                canvas.create_rectangle(cols*data["cellsize"],row*data["cellsize"],(cols+1)*data["cellsize"], (row+1)*data["cellsize"], fill="blue")    
 
-
-    return
+    canvas.pack()
+    return None
 
 
 ### WEEK 2 ###
@@ -237,7 +243,7 @@ def placeShip(data):
     if shipIsValid(k,data["temporaryShips"]):    
         for i in data["temporaryShips"]:
             k[i[0]][i[1]]=SHIP_UNCLICKED
-        data["userships"]=data["userShips"]+1
+        data["userShips"]=data["userShips"]+1
     else:        
         print("Ship is not valid")
     data["temporaryShips"]=[]
@@ -250,6 +256,8 @@ Parameters: dict mapping strs to values ; int ; int
 Returns: None
 '''
 def clickUserBoard(data, row, col):
+    if(data["userShips"]==data["numberofships"]):
+        return None
     k=data["userboard"]
     if[row,col]in k or data["userShips"]==5:
         return
@@ -287,7 +295,12 @@ Parameters: 2D list of ints
 Returns: list of ints
 '''
 def getComputerGuess(board):
-    return
+    row = random.randint(0,9)
+    col = random.randint(0,9)
+    while ((board[row][col] == SHIP_CLICKED) or (board[row][col] == EMPTY_CLICKED)):
+        row = random.randint(0,9)
+        col = random.randint(0,9)
+    return [row, col]
 
 
 '''
@@ -363,10 +376,12 @@ def runSimulation(w, h):
   
 # This code runs the test cases to check your work
 if __name__ == "__main__":
+    test.testGetComputerGuess()
 
     ## Finally, run the simulation to test it manually ##
     
     runSimulation(500, 500)
+
     
     
     
